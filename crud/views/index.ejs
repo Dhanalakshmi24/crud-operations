@@ -1,0 +1,199 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+    </script>
+    
+    <!-- Script for AJAX -->
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("#add").click(function () {
+                var name = {};
+                name.fname = $("#fname").val();
+                name.lname = $("#lname").val();
+                console.log(name);
+                $.ajax({
+                    url: "/addData",
+                    type: "POST",
+                    data: name,
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+
+                    }
+                });
+                //}
+            });
+            // AJAX For Edit Name
+            $("#edit").click(function () {
+                var name = { oldname: $("#oldname").val(), newname: $("#newname").val() };
+                console.log(name);
+                $.ajax({
+                    url: "/editData",
+                    type: "PUT",
+                    data: name,
+                    success: function (data) {
+                        $('#display_info').html(data);
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log("Error Message")
+                    }
+                });
+            });
+            // AJAX for Delete Name
+            $("#delete").click(function () {
+                var name = { delname: $("#delname").val() };
+                console.log(name);
+                $.ajax({
+                    url: "/delData",
+                    type: 'delete',
+                    data: name,
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log("Error Message");
+                    }
+                });
+            });
+        });         
+    </script>
+
+    <style>
+        /* Style for navigation header*/
+        .navbar-inverse{
+             background-color:rgb(26, 158, 182);
+             align-content: center;
+         }
+         h1{
+            color:white;
+            font-weight:bold;
+            text-align: center;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+         }
+    
+    </style>
+
+</head>
+
+
+<body style="background-color: rgb(125, 219, 231)">
+
+    <nav class="navbar navbar-inverse">
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h1>Registration Form</h1>
+            </div>
+        </div>
+        </div>
+
+    </nav>
+    <br>
+
+    <div class="container">
+        <div class="row">
+
+            <!-- making entire web page into 3 columns using GridSystem -->
+
+            <div class="col-sm-4">
+
+                <!-- using jumbotron for Add data  -->
+
+                <div class="jumbotron" style="background-color:rgb(247, 177, 229);">
+
+                    <!-- Add form containing firstname and lastname fields and Add button -->
+                    <form>
+                        <label>Firstname *</label>
+                        <input id="fname" type="text" name="fame" placeholder="Enter your firstname " required>
+                        <br>
+                        <label>Lastname *</label>
+                        <input id="lname" type="text" name="lname" placeholder="Enter your lastname" required>
+
+
+                        <br><br>
+                        <button type="button" class="btn btn-success"  id="add">Add</button>
+                        <p id="check"></p>
+                        <br>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+
+                <!-- using jumbotron for Edit data  -->
+
+                <div class="jumbotron" style="background-color:rgb(219, 196, 196);">
+
+                    <!-- Edit form containing oldname and newname fields and Edit button -->
+
+                    <form>
+                        OldName:
+                        <input type="text" name="fname" id="oldname">
+                        <br>
+                        Newname:
+                        <input type="text" name="lname" id="newname">
+                        <br><br>
+
+                        <button type="submit" class="btn btn-primary" id="edit">Edit</button>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+
+                <!-- using jumbotron for Delete data  -->
+
+                <div class="jumbotron" style="background-color:rgba(188, 236, 218, 0.671);">
+
+                    <!-- Delete form containing Name field and Delete button -->
+
+                    <form>
+                        <input type="text" name="name" id="delname">
+                        <br><br>
+                        <button type="submit" class="btn btn-danger" id="delete">Delete</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <!-- To display the list of all user names in the table -->
+
+            <h2 style="text-align:center;">Names of all registered users</h2>
+
+            <table class="table table-striped">
+
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                </tr>
+
+                <% for(let i = 0; i < namess.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= namess[i].Firstname %>
+                    </td>
+                    <td>
+                        <%= namess[i].Lastname %>
+                    </td>
+                </tr>
+                <%}%>
+
+            </table>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
